@@ -16,5 +16,9 @@ module Citizen
     def metric(key)
       @metrics << key
     end
+
+    def capabilities
+      permissions + metrics
+    end
   end
 end

@@ -17,5 +17,13 @@ module Citizen
 
       assert_includes catalog.metrics, :revenue
     end
+
+    def test_capabilities_combine_permissions_and_metrics
+      catalog = Catalog.new
+      catalog.permission(:view_fulfillment)
+      catalog.metric(:revenue)
+
+      assert_equal %i[view_fulfillment revenue], catalog.capabilities
+    end
   end
 end
