@@ -15,4 +15,8 @@ module Citizen
   def self.reset!
     @catalog = nil
   end
+
+  def self.can?(grants, capability)
+    grants.include?(capability)
+  end
 end
