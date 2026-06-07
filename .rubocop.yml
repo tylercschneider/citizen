@@ -1,22 +1,6 @@
+# Omakase Ruby styling for Rails
+inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+
 AllCops:
-  TargetRubyVersion: 3.2
-  SuggestExtensions: false
-
-Style/StringLiterals:
-  EnforcedStyle: double_quotes
-
-Style/StringLiteralsInInterpolation:
-  EnforcedStyle: double_quotes
-
-Layout/LineLength:
   Exclude:
-    - "*.gemspec"
-
-# Match the team standard (rubocop-rails-omakase): no mandatory class/module docs.
-Style/Documentation:
-  Enabled: false
-
-# Keyword args are self-documenting; a value object with many named attributes
-# isn't the readability problem this cop targets.
-Metrics/ParameterLists:
-  CountKeywordArgs: false
+    - "test/dummy/db/schema.rb"
