@@ -25,5 +25,17 @@ module Citizen
 
       assert_equal %i[view_fulfillment revenue], catalog.capabilities
     end
+
+    def test_global_catalog_dsl_declares_capabilities
+      Citizen.reset!
+      Citizen.catalog do
+        permission :view_fulfillment
+        metric :revenue
+      end
+
+      assert_equal %i[view_fulfillment revenue], Citizen.catalog.capabilities
+    ensure
+      Citizen.reset!
+    end
   end
 end
