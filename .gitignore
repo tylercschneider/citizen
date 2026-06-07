@@ -8,3 +8,10 @@
 /tmp/
 
 /Gemfile.lock
+
+# Dummy app artifacts
+/test/dummy/db/*.sqlite3
+/test/dummy/db/*.sqlite3-*
+/test/dummy/log/*.log
+/test/dummy/storage/
+/test/dummy/tmp/

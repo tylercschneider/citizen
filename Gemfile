@@ -1,13 +1,15 @@
-# frozen_string_literal: true
-
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in citizen.gemspec
+# Specify your gem's dependencies in citizen.gemspec.
 gemspec
 
-gem "irb"
-gem "rake", "~> 13.0"
+# Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
+gem "rubocop-rails-omakase", require: false
 
-gem "minitest", "~> 5.16"
-
-gem "rubocop", "~> 1.21"
+group :development, :test do
+  gem "puma"
+  gem "sqlite3"
+  gem "propshaft"
+  gem "pry"
+  gem "minitest", "~> 5.0"
+end
