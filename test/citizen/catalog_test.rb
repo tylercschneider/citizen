@@ -10,5 +10,12 @@ module Citizen
 
       assert_includes catalog.permissions, :view_fulfillment
     end
+
+    def test_records_a_metric
+      catalog = Catalog.new
+      catalog.metric(:revenue)
+
+      assert_includes catalog.metrics, :revenue
+    end
   end
 end

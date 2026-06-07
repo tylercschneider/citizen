@@ -2,14 +2,19 @@
 
 module Citizen
   class Catalog
-    attr_reader :permissions
+    attr_reader :permissions, :metrics
 
     def initialize
       @permissions = []
+      @metrics = []
     end
 
     def permission(key)
       @permissions << key
+    end
+
+    def metric(key)
+      @metrics << key
     end
   end
 end
