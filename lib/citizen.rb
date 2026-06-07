@@ -19,4 +19,8 @@ module Citizen
   def self.can?(grants, capability)
     grants.include?(capability)
   end
+
+  def self.approved_metrics(grants)
+    catalog.metrics & grants
+  end
 end
