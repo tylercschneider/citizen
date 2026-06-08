@@ -9,7 +9,7 @@ module Citizen
 
     def self.from_template(account_id:, template:)
       definition = Citizen.templates.find(template)
-      create!(account_id: account_id, name: definition.name.to_s.titleize, capabilities: definition.capabilities)
+      create!(account_id: account_id, name: definition.role_name, capabilities: definition.capabilities)
     end
 
     private

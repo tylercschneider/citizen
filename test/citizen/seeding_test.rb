@@ -20,5 +20,12 @@ module Citizen
 
       assert_equal %w[Admin], Role.in_account(42).pluck(:name)
     end
+
+    test "seeding twice does not duplicate roles" do
+      Citizen.seed_default_roles(42)
+      Citizen.seed_default_roles(42)
+
+      assert_equal 1, Role.in_account(42).count
+    end
   end
 end

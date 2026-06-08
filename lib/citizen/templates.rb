@@ -2,7 +2,11 @@
 
 module Citizen
   class Templates
-    Template = Struct.new(:name, :capabilities, :default, keyword_init: true)
+    Template = Struct.new(:name, :capabilities, :default, keyword_init: true) do
+      def role_name
+        name.to_s.titleize
+      end
+    end
 
     def initialize
       @templates = []

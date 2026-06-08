@@ -21,9 +21,8 @@ module Citizen
   end
 
   def self.seed_default_roles(account_id)
-    templates.defaults.map do |template|
-      Role.from_template(account_id: account_id, template: template.name)
-    end
+    templates.defaults.reject { |template| Role.in_account(account_id).exists?(name: template.role_name) }
+            .map { |template| Role.from_template(account_id: account_id, template: template.name) }
   end
 
   def self.reset!
