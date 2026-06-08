@@ -8,6 +8,18 @@ module Citizen
       assert Citizen.can?(%i[view_fulfillment revenue], :view_fulfillment)
     end
 
+    def test_capabilities_are_the_declared_catalog_capabilities
+      Citizen.reset!
+      Citizen.catalog do
+        permission :view_fulfillment
+        metric :revenue
+      end
+
+      assert_equal %i[view_fulfillment revenue], Citizen.capabilities
+    ensure
+      Citizen.reset!
+    end
+
     def test_approved_metrics_are_the_granted_catalog_metrics
       Citizen.reset!
       Citizen.catalog do

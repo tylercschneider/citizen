@@ -17,6 +17,10 @@ module Citizen
     @catalog = nil
   end
 
+  def self.capabilities
+    catalog.capabilities
+  end
+
   def self.can?(grants, capability)
     grants.include?(capability)
   end
