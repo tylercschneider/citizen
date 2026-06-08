@@ -27,5 +27,11 @@ module Citizen
 
       assert_equal 1, Role.in_account(42).count
     end
+
+    test "seeding one account does not create roles in another" do
+      Citizen.seed_default_roles(42)
+
+      assert_equal 0, Role.in_account(99).count
+    end
   end
 end
