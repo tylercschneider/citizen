@@ -14,5 +14,17 @@ module Citizen
     ensure
       Citizen.reset!
     end
+
+    def test_defaults_returns_only_templates_flagged_default
+      Citizen.reset!
+      Citizen.templates do
+        template :admin, capabilities: %w[revenue], default: true
+        template :custom, capabilities: %w[revenue]
+      end
+
+      assert_equal %i[admin], Citizen.templates.defaults.map(&:name)
+    ensure
+      Citizen.reset!
+    end
   end
 end

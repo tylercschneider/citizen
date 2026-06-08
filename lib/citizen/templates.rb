@@ -19,9 +19,5 @@ module Citizen
     def defaults
       @templates.select(&:default)
     end
-
-    def all
-      @templates
-    end
   end
 end
