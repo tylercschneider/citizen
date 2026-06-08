@@ -4,6 +4,17 @@ require "test_helper"
 
 module Citizen
   class MemberTest < ActiveSupport::TestCase
+    setup do
+      Citizen.reset!
+      Citizen.catalog do
+        metric :revenue
+        metric :tickets
+        metric :fulfillment
+      end
+    end
+
+    teardown { Citizen.reset! }
+
     test "assigning a role makes it one of the member's roles" do
       role = Role.create!(account_id: 1, name: "Sales", capabilities: %w[revenue])
       member = ::Member.create!

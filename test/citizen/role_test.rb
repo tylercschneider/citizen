@@ -4,6 +4,23 @@ require "test_helper"
 
 module Citizen
   class RoleTest < ActiveSupport::TestCase
+    setup do
+      Citizen.reset!
+      Citizen.catalog do
+        metric :revenue
+        metric :deals
+      end
+    end
+
+    teardown { Citizen.reset! }
+
+    test "rejects a capability that is not in the catalog" do
+      role = Role.new(account_id: 1, name: "Bogus", capabilities: %w[not_a_capability])
+      role.valid?
+
+      assert_includes role.errors[:capabilities], "includes unknown capability: not_a_capability"
+    end
+
     test "stores its capabilities" do
       role = Role.create!(account_id: 1, name: "Sales Associate", capabilities: %w[revenue deals])
 
