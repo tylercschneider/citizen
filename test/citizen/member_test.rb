@@ -42,5 +42,21 @@ module Citizen
 
       assert_not_includes member.reload.citizen_roles, role
     end
+
+    test "approved_metrics are the member's granted catalog metrics" do
+      Citizen.reset!
+      Citizen.catalog do
+        permission :view_fulfillment
+        metric :revenue
+        metric :deals
+      end
+      role = Role.create!(account_id: 1, name: "Sales", capabilities: %w[view_fulfillment revenue])
+      member = ::Member.create!
+      member.assign_role(role)
+
+      assert_equal %i[revenue], member.approved_metrics
+    ensure
+      Citizen.reset!
+    end
   end
 end
