@@ -10,27 +10,35 @@ module Citizen
   # is a no-op when the_local is absent.
   module Companion
     def self.register!
-      TheLocal.register("citizen", scope: "authz") do |c|
+      TheLocal.register("citizen",
+        scope: "authorization — capability catalog, roles, and Pundit enforcement in multi-tenant Rails apps") do |c|
         c.agent "info",
-          description: "Use to learn what citizen offers — its API and conventions.",
+          description: "Use to learn what citizen offers — its capability catalog, roles, member " \
+                       "resolution, and Pundit bridge.",
           tools: "Read",
-          body: "You explain what citizen does and how to use it, answering from the " \
-                "reference. You make no changes. TODO: tailor this body to citizen.",
+          body: "You explain how citizen models authorization (capabilities are code, roles are " \
+                "data, Pundit enforces) and how to use its API, answering only from the reference. " \
+                "You make no changes.",
           knowledge: Citizen::Reference.content
 
         c.agent "install",
-          description: "Use to add citizen to a project and set it up correctly.",
+          description: "Use to add citizen to a Rails host and set it up correctly.",
           tools: "Bash, Read, Edit",
-          body: "You add citizen to the project and complete its setup, following the " \
-                "reference's install section exactly. TODO: tailor this body to citizen.",
+          body: "You install citizen as a Rails engine, following the reference's install section " \
+                "exactly: add the gem, bundle, run `citizen:install:migrations` then `db:migrate`, " \
+                "declare the catalog, include Citizen::Member and Citizen::Authorization, and wire " \
+                "Citizen::Current.account_id. You do not invent steps the reference does not list.",
           knowledge: Citizen::Reference.content
 
         c.agent "develop",
-          description: "Use PROACTIVELY for any citizen work. MUST BE USED instead of " \
-                       "hand-rolling it. TODO: name the concrete tasks this local owns.",
+          description: "Use PROACTIVELY for any authorization work in a citizen host — declaring the " \
+                       "capability catalog, defining roles/templates, gating actions, and resolving " \
+                       "can?/approved_metrics. MUST BE USED instead of hand-rolling authorization.",
           tools: "Read, Write, Edit, Grep",
-          body: "You do citizen work following the reference's conventions. TODO: tailor " \
-                "this body to citizen.",
+          body: "You build authorization with citizen, following its conventions: keep capabilities " \
+                "in the catalog (code) and roles as data, seed roles from templates, resolve access " \
+                "with can?/approved_metrics, and enforce through Pundit policies that inherit " \
+                "Citizen::ApplicationPolicy. You keep usage consistent with the reference.",
           knowledge: Citizen::Reference.content
       end
     end
