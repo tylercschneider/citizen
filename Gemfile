@@ -12,4 +12,8 @@ group :development, :test do
   gem "propshaft"
   gem "pry"
   gem "minitest", "~> 5.0"
+
+  # Optional companion: citizen registers its locals with the_local when present.
+  # Registration is guarded, so citizen works standalone.
+  gem "the_local", github: "tylercschneider/the_local"
 end
