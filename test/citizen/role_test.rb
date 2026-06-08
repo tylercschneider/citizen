@@ -16,5 +16,12 @@ module Citizen
 
       assert_includes role.errors[:name], "can't be blank"
     end
+
+    test "in_account returns only roles for that account" do
+      mine = Role.create!(account_id: 1, name: "Mine")
+      Role.create!(account_id: 2, name: "Theirs")
+
+      assert_equal [ mine ], Role.in_account(1).to_a
+    end
   end
 end
