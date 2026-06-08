@@ -12,5 +12,16 @@ module Citizen
 
       assert_includes member.citizen_roles, role
     end
+
+    test "capabilities is the union of assigned roles' capabilities as symbols" do
+      sales = Role.create!(account_id: 1, name: "Sales", capabilities: %w[revenue])
+      support = Role.create!(account_id: 1, name: "Support", capabilities: %w[revenue tickets])
+      member = ::Member.create!
+
+      member.assign_role(sales)
+      member.assign_role(support)
+
+      assert_equal %i[revenue tickets], member.capabilities.sort
+    end
   end
 end
