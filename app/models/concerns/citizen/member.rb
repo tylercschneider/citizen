@@ -17,16 +17,17 @@ module Citizen
       citizen_assignments.where(role: role).destroy_all
     end
 
-    def capabilities
-      citizen_roles.flat_map(&:capabilities).uniq.map(&:to_sym)
+    def capabilities(account_id: nil)
+      roles = account_id ? citizen_roles.where(account_id: account_id) : citizen_roles
+      roles.flat_map(&:capabilities).uniq.map(&:to_sym)
     end
 
-    def can?(capability)
-      Citizen.can?(capabilities, capability)
+    def can?(capability, account_id: nil)
+      Citizen.can?(capabilities(account_id: account_id), capability)
     end
 
-    def approved_metrics
-      Citizen.approved_metrics(capabilities)
+    def approved_metrics(account_id: nil)
+      Citizen.approved_metrics(capabilities(account_id: account_id))
     end
   end
 end

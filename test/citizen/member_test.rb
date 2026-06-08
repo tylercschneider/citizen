@@ -58,5 +58,13 @@ module Citizen
     ensure
       Citizen.reset!
     end
+
+    test "capabilities can be scoped to a single account" do
+      member = ::Member.create!
+      member.assign_role(Role.create!(account_id: 1, name: "Sales", capabilities: %w[revenue]))
+      member.assign_role(Role.create!(account_id: 2, name: "Ops", capabilities: %w[fulfillment]))
+
+      assert_equal %i[revenue], member.capabilities(account_id: 1)
+    end
   end
 end
