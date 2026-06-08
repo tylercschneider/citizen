@@ -3,6 +3,7 @@
 require_relative "citizen/version"
 require_relative "citizen/engine"
 require_relative "citizen/catalog"
+require_relative "citizen/templates"
 
 module Citizen
   class Error < StandardError; end
@@ -13,8 +14,15 @@ module Citizen
     @catalog
   end
 
+  def self.templates(&block)
+    @templates ||= Templates.new
+    @templates.instance_eval(&block) if block
+    @templates
+  end
+
   def self.reset!
     @catalog = nil
+    @templates = nil
   end
 
   def self.capabilities
