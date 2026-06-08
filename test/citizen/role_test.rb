@@ -31,6 +31,16 @@ module Citizen
       assert_equal %w[revenue deals], role.capabilities
     end
 
+    test "from_template titleizes the template key into the role name" do
+      Citizen.templates do
+        template :sales_associate, capabilities: %w[revenue]
+      end
+
+      role = Role.from_template(account_id: 7, template: :sales_associate)
+
+      assert_equal "Sales Associate", role.name
+    end
+
     test "stores its capabilities" do
       role = Role.create!(account_id: 1, name: "Sales Associate", capabilities: %w[revenue deals])
 
