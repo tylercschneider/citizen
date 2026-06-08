@@ -3,6 +3,8 @@
 class ReportsController < ApplicationController
   include Citizen::Authorization
 
+  before_action { Citizen::Current.account_id = params[:account_id] }
+
   def show
   end
 

@@ -12,5 +12,14 @@ module Citizen
 
       assert_includes response.body, "revenue: true"
     end
+
+    test "can? helper resolves against the current account" do
+      member = ::Member.create!
+      member.assign_role(Role.create!(account_id: 2, name: "Sales", capabilities: %w[revenue]))
+
+      get "/reports", params: { member_id: member.id, account_id: 1 }
+
+      assert_includes response.body, "revenue: false"
+    end
   end
 end
