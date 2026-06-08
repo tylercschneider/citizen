@@ -32,5 +32,15 @@ module Citizen
       assert member.can?(:revenue)
       assert_not member.can?(:expenses)
     end
+
+    test "revoking a role removes it from the member's roles" do
+      role = Role.create!(account_id: 1, name: "Sales", capabilities: %w[revenue])
+      member = ::Member.create!
+      member.assign_role(role)
+
+      member.revoke_role(role)
+
+      assert_not_includes member.reload.citizen_roles, role
+    end
   end
 end
