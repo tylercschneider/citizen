@@ -23,5 +23,14 @@ module Citizen
 
       assert_equal %i[revenue tickets], member.capabilities.sort
     end
+
+    test "can? is true only for capabilities the member's roles grant" do
+      role = Role.create!(account_id: 1, name: "Sales", capabilities: %w[revenue])
+      member = ::Member.create!
+      member.assign_role(role)
+
+      assert member.can?(:revenue)
+      assert_not member.can?(:expenses)
+    end
   end
 end
