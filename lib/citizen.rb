@@ -20,6 +20,12 @@ module Citizen
     @templates
   end
 
+  def self.seed_default_roles(account_id)
+    templates.defaults.map do |template|
+      Role.from_template(account_id: account_id, template: template.name)
+    end
+  end
+
   def self.reset!
     @catalog = nil
     @templates = nil
