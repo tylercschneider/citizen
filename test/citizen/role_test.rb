@@ -21,6 +21,16 @@ module Citizen
       assert_includes role.errors[:capabilities], "includes unknown capability: not_a_capability"
     end
 
+    test "from_template builds a role with the template's capabilities" do
+      Citizen.templates do
+        template :sales, capabilities: %w[revenue deals]
+      end
+
+      role = Role.from_template(account_id: 7, template: :sales)
+
+      assert_equal %w[revenue deals], role.capabilities
+    end
+
     test "stores its capabilities" do
       role = Role.create!(account_id: 1, name: "Sales Associate", capabilities: %w[revenue deals])
 

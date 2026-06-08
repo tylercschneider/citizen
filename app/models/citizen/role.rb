@@ -7,6 +7,11 @@ module Citizen
 
     scope :in_account, ->(account_id) { where(account_id: account_id) }
 
+    def self.from_template(account_id:, template:)
+      definition = Citizen.templates.find(template)
+      create!(account_id: account_id, name: definition.name.to_s.titleize, capabilities: definition.capabilities)
+    end
+
     private
 
     def capabilities_within_catalog
