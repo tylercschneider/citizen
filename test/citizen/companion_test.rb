@@ -12,7 +12,7 @@ module Citizen
     end
 
     def test_registers_the_common_command_interface
-      assert_equal ["citizen-info", "citizen-install", "citizen-develop"],
+      assert_equal [ "citizen-info", "citizen-install", "citizen-develop" ],
         TheLocal.registry.agents.map(&:qualified_name)
     end
 
