@@ -1,0 +1,62 @@
+# frozen_string_literal: true
+
+require "test_helper"
+
+module Citizen
+  class MemberTest < ActiveSupport::TestCase
+    test "assigning a role makes it one of the member's roles" do
+      role = Role.create!(account_id: 1, name: "Sales", capabilities: %w[revenue])
+      member = ::Member.create!
+
+      member.assign_role(role)
+
+      assert_includes member.citizen_roles, role
+    end
+
+    test "capabilities is the union of assigned roles' capabilities as symbols" do
+      sales = Role.create!(account_id: 1, name: "Sales", capabilities: %w[revenue])
+      support = Role.create!(account_id: 1, name: "Support", capabilities: %w[revenue tickets])
+      member = ::Member.create!
+
+      member.assign_role(sales)
+      member.assign_role(support)
+
+      assert_equal %i[revenue tickets], member.capabilities.sort
+    end
+
+    test "can? is true only for capabilities the member's roles grant" do
+      role = Role.create!(account_id: 1, name: "Sales", capabilities: %w[revenue])
+      member = ::Member.create!
+      member.assign_role(role)
+
+      assert member.can?(:revenue)
+      assert_not member.can?(:expenses)
+    end
+
+    test "revoking a role removes it from the member's roles" do
+      role = Role.create!(account_id: 1, name: "Sales", capabilities: %w[revenue])
+      member = ::Member.create!
+      member.assign_role(role)
+
+      member.revoke_role(role)
+
+      assert_not_includes member.reload.citizen_roles, role
+    end
+
+    test "approved_metrics are the member's granted catalog metrics" do
+      Citizen.reset!
+      Citizen.catalog do
+        permission :view_fulfillment
+        metric :revenue
+        metric :deals
+      end
+      role = Role.create!(account_id: 1, name: "Sales", capabilities: %w[view_fulfillment revenue])
+      member = ::Member.create!
+      member.assign_role(role)
+
+      assert_equal %i[revenue], member.approved_metrics
+    ensure
+      Citizen.reset!
+    end
+  end
+end
