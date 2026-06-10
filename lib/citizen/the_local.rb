@@ -11,7 +11,8 @@ module Citizen
   module Companion
     def self.register!
       TheLocal.register("citizen",
-        scope: "authorization — capability catalog, roles, and Pundit enforcement in multi-tenant Rails apps") do |c|
+        scope: "authorization — capability catalog, roles, and Pundit enforcement in multi-tenant Rails apps",
+        agents_dir: File.expand_path("the_local/agents", __dir__)) do |c|
         c.agent "info",
           description: "Use to learn what citizen offers — its capability catalog, roles, member " \
                        "resolution, and Pundit bridge.",
